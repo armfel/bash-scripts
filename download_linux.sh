@@ -52,7 +52,7 @@ download_ubuntu_server() {
 	return 0
 }
 
-# Function which download ubuntu server iso
+# Function which download ubuntu desktop iso
 download_ubuntu_desktop() {
         local SAVE_DIR="${1}"
 	local FTP_SERVER="by.releases.ubuntu.com"
@@ -93,6 +93,7 @@ download_ubuntu_desktop() {
 	return 0
 }
 
+# Function which download debian iso
 download_debian() {
 	local SAVE_DIR="${1}"
 	local FTP_SERVER="ftp.by.debian.org"
@@ -100,7 +101,7 @@ download_debian() {
 	local FTP_PATH="/debian-cd/current/amd64/iso-dvd"
 	local REMOTE_FILE_DEBIAN="$(wget -q http://${FTP_SERVER}${FTP_REMOTE_FILE_PATH} -O - | grep -vi 'update' | awk '/DVD-1.iso$/ {print $2}')"
 	local CHECK_SHASUM_DEBIAN="$(wget -q http://${FTP_SERVER}${FTP_REMOTE_FILE_PATH} -O - | grep -vi 'update' | awk '/DVD-1.iso$/ {print $1}')"
-	
+
 	# Check existing file and checksum
 	if [[ -f "${SAVE_DIR}/${REMOTE_FILE_DEBIAN}" ]] && [[ "$(sha256sum ${SAVE_DIR}/${REMOTE_FILE_DEBIAN} | awk '{print $1}')" == "${CHECK_SHASUM_DEBIAN}" ]]
 	then
@@ -133,6 +134,7 @@ download_debian() {
 	return 0
 }
 
+# Function which check downloading dir
 check_downloading_dir() {
 	local DIR USER USER_HOME FREE_SPACE ERRORS FUNCTION_NAME
 
